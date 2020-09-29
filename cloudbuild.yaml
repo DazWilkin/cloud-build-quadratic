@@ -1,0 +1,87 @@
+steps:
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - 'echo "Quadratic: $(cat a)x²+$(cat b)x+$(cat c)s=0"'
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - 'echo "$(cat b) * $(cat b)" | bc -l > b2'
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - 'echo "4 * $(cat a) * $(cat c)" | bc -l > 4ac'
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - 'echo "$(cat b2) - $(cat 4ac)" | bc -l > b2-4ac'
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - "rm b2 4ac"
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - 'echo "sqrt($(cat b2-4ac))" | bc -l > sqrt'
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - "rm b2-4ac"
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - 'echo "-($(cat b)) + $(cat sqrt)" | bc -l > add'
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - 'echo "-($(cat b)) - $(cat sqrt)" | bc -l > sub'
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - "rm sqrt"
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - 'echo "2 * $(cat a)" | bc -l > 2a'
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - 'echo "$(cat add)/$(cat 2a)" | bc -l > root1'
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - 'echo "$(cat sub)/$(cat 2a)" | bc -l > root2'
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - "rm 2a add sub"
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - 'echo "Roots are: $(cat root1); $(cat root2)"'
+  - name: busybox
+    args:
+      - ash
+      - -c
+      - "rm root1 root2"
+# artifacts:
+#   objects:
+#     location: "gs://[BUCKET]/"
+#     paths:
+#       - "root1"
+#       - "root2"
